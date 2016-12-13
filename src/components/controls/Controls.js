@@ -1,31 +1,30 @@
-import React from 'react';
+import Inferno from 'inferno';
+import Component from 'inferno-component'
+import createElement from 'inferno-create-element';
+import update from 'immutability-helper'
+
 import Play from './play/Play';
 import Seek from './seek/Seek';
 import Mute from './mute/Mute';
 import Time from './time/Time';
 import Fullscreen from './fullscreen/Fullscreen';
 
-var Controls = React.createClass({
+class Controls extends Component {
 
-    propTypes: {
-        error: React.PropTypes.bool,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.node),
-            React.PropTypes.node
-        ])
-    },
-
-    getDefaultProps() {
-        return {
-            children: [
-                <Play />,
-                <Seek />,
-                <Time />,
-                <Mute />,
-                <Fullscreen />
-            ]
-        };
-    },
+    constructor(props) {
+        super(props);
+        this.props = update(this.props, {
+            $merge: {
+                children: [
+                    <Play />,
+                    <Seek />,
+                    <Time />,
+                    <Mute />,
+                    <Fullscreen />
+                ]
+            }
+        });
+    }
 
     /**
      * Returns children components with props
@@ -34,10 +33,11 @@ var Controls = React.createClass({
      * @return {Array.<ReactElement>} An array of components.
      */
     renderChildren() {
-        return React.Children.map(this.props.children, child => {
-            return React.cloneElement(child, {...this.props});
+        return (this.props.children).map( child => {
+            console.log(child)
+            return createElement(child, {...this.props});
         });
-    },
+    }
 
     render() {
         return (
@@ -48,6 +48,6 @@ var Controls = React.createClass({
             ) : null
         );
     }
-});
+};
 
 export default Controls;

@@ -1,26 +1,15 @@
-import React from 'react';
+import Inferno from 'inferno';
+import Component from 'inferno-component'
 import ProgressBar from './../../progressbar/ProgressBar';
 
-var Seek = React.createClass({
+class Seek extends Component {
 
-    propTypes: {
-        copyKeys: React.PropTypes.object,
-        seek: React.PropTypes.func,
-        percentageBuffered: React.PropTypes.number,
-        percentagePlayed: React.PropTypes.number,
-        duration: React.PropTypes.number
-    },
-
-    getInitialState() {
-        return {
-            // When the child range input becomes focused,
-            // we need to set this custom seek bar to look
-            // 'focused' with the correct styles. Need to
-            // do this via a class.
+    constructor() {
+        super();
+        this.setState({
             focused: false
-        };
-    },
-
+        })
+    }
     /**
      * As controls receive all props for extensibility, we do a quick
      * check and make sure only the props we care about have changed.
@@ -32,7 +21,7 @@ var Seek = React.createClass({
                this.props.percentageBuffered !== nextProps.percentageBuffered ||
                this.props.percentagePlayed !== nextProps.percentagePlayed ||
                this.props.duration !== nextProps.duration;
-    },
+    }
 
     /**
      * Calculates the seek time based on change of input.
@@ -41,19 +30,19 @@ var Seek = React.createClass({
      */
     seek(e) {
         this.props.seek(e.target.value * this.props.duration / 100, true);
-    },
+    }
 
     onFocus() {
         this.setState({
             focused: true
         });
-    },
+    }
 
     onBlur() {
         this.setState({
             focused: false
         });
-    },
+    }
 
     render() {
         return (
@@ -75,6 +64,6 @@ var Seek = React.createClass({
             </div>
         );
     }
-});
+};
 
 export default Seek;

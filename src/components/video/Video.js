@@ -1,4 +1,6 @@
-import React from 'react';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
+import createElement from 'inferno-create-element'
 import Overlay from './overlay/Overlay';
 import Controls from './../controls/Controls';
 import Seek from './../controls/seek/Seek';
@@ -6,10 +8,11 @@ import Play from './../controls/play/Play';
 import Mute from './../controls/mute/Mute';
 import Fullscreen from './../controls/fullscreen/Fullscreen';
 import Time from './../controls/time/Time';
+import update from 'immutability-helper';
 import throttle from 'lodash.throttle';
 import copy from './../../assets/copy';
 
-var EVENTS = [
+const EVENTS = [
     'onAbort',
     'onCanPlay',
     'onCanPlayThrough',
@@ -35,49 +38,38 @@ var EVENTS = [
     'onWaiting'
 ];
 
-var Video = React.createClass({
-
-    propTypes: {
-        // Non-standard props
-        copyKeys: React.PropTypes.object,
-        children: React.PropTypes.node,
-        className: React.PropTypes.string,
-
-        // HTML5 Video standard attributes
-        autoPlay: React.PropTypes.bool,
-        muted: React.PropTypes.bool,
-        controls: React.PropTypes.bool
-    },
-
-    getDefaultProps() {
-        return {
-            copyKeys: copy
-        };
-    },
-
-    getInitialState() {
+class Video extends Component {
+    constructor(props) {
+        super(props);
         // Set state from props and always use these
         // to check state of video as they will update
         // on the video events. Changing this state however will not
         // change the video. The API methods must be used.
-        return {
-            networkState: 0,
-            paused: !this.props.autoPlay,
-            muted: !!this.props.muted,
-            volume: 1,
-            playbackRate: 1,
-            error: false,
-            loading: false
-        };
-    },
+        this.props = update(this.props, {
+            $merge: {
+                copyKeys: copy
+            }
+        });
+    }
 
     /**
      * Creates a throttle update method.
      * @return {undefined}
      */
     componentWillMount() {
+        this.setState(update(this.state, {
+            $merge: {
+                networkState: 0,
+                paused: !this.props.autoPlay,
+                muted: !!this.props.muted,
+                volume: 1,
+                playbackRate: 1,
+                error: false,
+                loading: false
+                }
+        }));
         this._updateStateFromVideo = throttle(this.updateStateFromVideo, 100);
-        // Set up all React media events and call method
+        // Set up all Inferno media events and call method
         // on props if provided.
         this.mediaEventProps = EVENTS.reduce((p, c) => {
             p[c] = (e) => {
@@ -89,10 +81,10 @@ var Video = React.createClass({
             };
             return p;
         }, {});
-    },
+    }
 
     /**
-     * Bind eventlisteners not supported by React's synthetic events
+     * Bind eventlisteners not supported by Inferno's synthetic events
      * https://facebook.github.io/react/docs/events.html
      * @return {undefined}
      */
@@ -100,10 +92,10 @@ var Video = React.createClass({
         // Listen to error of last source.
         this.videoEl.children[this.videoEl.children.length - 1]
             .addEventListener('error', this._updateStateFromVideo);
-    },
+    }
 
     /**
-     * Removes event listeners bound outside of React's synthetic events
+     * Removes event listeners bound outside of Inferno's synthetic events
      * @return {undefined}
      */
     componentWillUnmount() {
@@ -114,7 +106,7 @@ var Video = React.createClass({
         // the video has been unmounted.
         // https://github.com/mderrick/react-html5video/issues/35
         this._updateStateFromVideo.cancel();
-    },
+    }
 
     /**
      * Toggles the video to play and pause.
@@ -126,7 +118,7 @@ var Video = React.createClass({
         } else {
             this.pause();
         }
-    },
+    }
 
     /**
      * Toggles the video to mute and unmute.
@@ -138,7 +130,7 @@ var Video = React.createClass({
         } else {
             this.mute();
         }
-    },
+    }
 
     /**
      * Loads video.
@@ -146,7 +138,7 @@ var Video = React.createClass({
      */
     load() {
         this.videoEl.load();
-    },
+    }
 
     /**
      * Sets the video to fullscreen.
@@ -162,7 +154,7 @@ var Video = React.createClass({
         } else if (this.videoEl.webkitRequestFullscreen) {
             this.videoEl.webkitRequestFullscreen();
         }
-    },
+    }
 
     /**
      * Plays the video.
@@ -170,7 +162,7 @@ var Video = React.createClass({
      */
     play() {
         this.videoEl.play();
-    },
+    }
 
     /**
      * Pauses the video.
@@ -178,7 +170,7 @@ var Video = React.createClass({
      */
     pause() {
         this.videoEl.pause();
-    },
+    }
 
     /**
      * Unmutes video.
@@ -186,7 +178,7 @@ var Video = React.createClass({
      */
     unmute() {
         this.videoEl.muted = false;
-    },
+    }
 
     /**
      * Mutes the video.
@@ -194,13 +186,13 @@ var Video = React.createClass({
      */
     mute() {
         this.videoEl.muted = true;
-    },
+    }
 
     /**
      * Seeks the video timeline.
      * @param  {number} time The value in seconds to seek to
      * @param  {bool}   forceUpdate Forces a state update without waiting for
-     *                              throttled event.          
+     *                              throttled event.
      * @return {undefined}
      */
     seek(time, forceUpdate) {
@@ -212,13 +204,13 @@ var Video = React.createClass({
         if (forceUpdate) {
             this.updateStateFromVideo();
         }
-    },
+    }
 
     /**
      * Sets the video volume.
      * @param  {number} volume The volume level between 0 and 1.
      * @param  {bool}   forceUpdate Forces a state update without waiting for
-     *                              throttled event.  
+     *                              throttled event.
      * @return {undefined}
      */
     setVolume(volume, forceUpdate) {
@@ -230,7 +222,7 @@ var Video = React.createClass({
         if (forceUpdate) {
             this.updateStateFromVideo();
         }
-    },
+    }
 
     /**
      * Sets the video playback rate.
@@ -240,10 +232,10 @@ var Video = React.createClass({
     setPlaybackRate(rate) {
         this.videoEl.playbackRate = rate;
         this.updateStateFromVideo();
-    },
+    }
 
     /**
-     * Updates the React component state from the DOM video properties.
+     * Updates the Inferno component state from the DOM video properties.
      * This is where the magic happens.
      * @return {undefined}
      */
@@ -265,13 +257,13 @@ var Video = React.createClass({
             error: this.videoEl.networkState === this.videoEl.NETWORK_NO_SOURCE,
             loading: this.videoEl.readyState < this.videoEl.HAVE_ENOUGH_DATA
         });
-    },
+    }
 
     /**
      * Returns everything but 'source' nodes from children
      * and extends props so all children have access to Video API and state.
      * If there are no controls provided, returns default Controls.
-     * @return {Array.<ReactElement>} An array of components.
+     * @return {Array.<InfernoElement>} An array of components.
      */
     renderControls() {
         var extendedProps = Object.assign({
@@ -288,13 +280,14 @@ var Video = React.createClass({
             setVolume: this.setVolume,
             setPlaybackRate: this.setPlaybackRate,
         }, this.state, {copyKeys: this.props.copyKeys});
-
-        var controls = React.Children.map(this.props.children, (child) => {
+        var controls = (this.props.children).map( (child) => {
+            console.log(child)
             if (child.type === 'source') {
                 return void 0;
             }
-            return React.cloneElement(child, extendedProps);
+            return Inferno.cloneVNode(child, extendedProps);
         });
+        console.log(controls)
 
         if (!controls.length) {
             controls = (
@@ -305,20 +298,21 @@ var Video = React.createClass({
             );
         }
         return controls;
-    },
+    }
 
     /**
      * Returns video 'source' nodes from children.
-     * @return {Array.<ReactElement>} An array of components.
+     * @return {Array.<InfernoElement>} An array of components.
      */
     renderSources() {
-        return React.Children.map(this.props.children, (child) => {
+        console.log('renderSources', this.props)
+        return (this.props.children).map( (child) => {
             if (child.type !== 'source') {
                 return void 0;
             }
             return child;
         });
-    },
+    }
 
     /**
      * Gets the video class name based on its state
@@ -345,7 +339,7 @@ var Video = React.createClass({
             classString += ' ' + className;
         }
         return classString;
-    },
+    }
 
     /**
      * Sets state to show focused class on video player.
@@ -355,7 +349,7 @@ var Video = React.createClass({
         this.setState({
             focused: true
         });
-    },
+    }
 
     /**
      * Sets state to not be focused to remove class form video
@@ -366,7 +360,7 @@ var Video = React.createClass({
         this.setState({
             focused: false
         });
-    },
+    };
 
     render() {
         // If controls prop is provided remove it
@@ -383,11 +377,9 @@ var Video = React.createClass({
                 <video
                     {...otherProps}
                     className="video__el"
-                    ref={(el) => {
-                        this.videoEl = el;
-                    }}
+                    ref={(el) => { this.videoEl = el; }}
                     //  We have throttled `_updateStateFromVideo` so listen to
-                    //  every available Media event that React allows and
+                    //  every available Media event that Inferno allows and
                     //  infer the Video state in that method from the Video properties.
                     {...this.mediaEventProps}>
                         {this.renderSources()}
@@ -395,7 +387,9 @@ var Video = React.createClass({
                 {controls ? this.renderControls() : ''}
             </div>
         );
-    }
-});
+    };
+}
 
 export {Video as default, Controls, Seek, Play, Mute, Fullscreen, Time, Overlay};
+                {/*{controls ? this.renderControls() : ''}*/}
+                        {/*{this.renderSources()}*/}

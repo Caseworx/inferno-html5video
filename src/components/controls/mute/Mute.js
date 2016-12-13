@@ -1,17 +1,9 @@
-import React from 'react';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 import Icon from './../../icon/Icon';
 import ProgressBar from './../../progressbar/ProgressBar';
 
-var Mute = React.createClass({
-
-    propTypes: {
-        copyKeys: React.PropTypes.object,
-        volume: React.PropTypes.number,
-        unmute: React.PropTypes.func,
-        setVolume: React.PropTypes.func,
-        toggleMute: React.PropTypes.func,
-        muted: React.PropTypes.bool
-    },
+class Mute extends Component {
 
     /**
      * As controls receive all props for extensibility, we do a quick
@@ -25,7 +17,7 @@ var Mute = React.createClass({
                this.props.volume !== nextProps.volume ||
                this.props.setVolume !== nextProps.setVolume ||
                this.props.unmute !== nextProps.unmute;
-    },
+    }
 
     /**
      * Calculates the seek time based on click position and element offset.
@@ -35,7 +27,7 @@ var Mute = React.createClass({
     changeVolume(e) {
         this.props.setVolume(e.target.value / 100, true);
         this.props.unmute();
-    },
+    }
 
     toggleMute() {
         // If we volume has been dragged to 0, assume it is in
@@ -45,7 +37,7 @@ var Mute = React.createClass({
         } else {
             this.props.toggleMute();
         }
-    },
+    }
 
     render() {
         return (
@@ -73,6 +65,6 @@ var Mute = React.createClass({
             </div>
         );
     }
-});
+};
 
 export default Mute;

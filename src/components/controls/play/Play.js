@@ -1,13 +1,13 @@
-import React from 'react';
+import Inferno from 'inferno';
+import Component from 'inferno-component'
 import Icon from './../../icon/Icon';
 
-var Play = React.createClass({
+class Play extends Component {
 
-    propTypes: {
-        copyKeys: React.PropTypes.object,
-        togglePlay: React.PropTypes.func,
-        paused: React.PropTypes.bool
-    },
+    constructor(props) {
+        super(props)
+        console.log(this.props)
+    }
 
     /**
      * As controls receive all props for extensibility, we do a quick
@@ -18,7 +18,7 @@ var Play = React.createClass({
     shouldComponentUpdate(nextProps) {
         return this.props.paused !== nextProps.paused ||
                this.props.togglePlay !== nextProps.togglePlay;
-    },
+    }
 
     render() {
         return (
@@ -31,6 +31,6 @@ var Play = React.createClass({
             </button>
         );
     }
-});
+};
 
 export default Play;

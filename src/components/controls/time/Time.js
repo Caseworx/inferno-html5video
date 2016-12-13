@@ -1,12 +1,8 @@
-import React from 'react';
+import Inferno from 'inferno';
+import Component from 'inferno-component'
 import Icon from './../../icon/Icon';
 
-var Time = React.createClass({
-
-    propTypes: {
-        currentTime: React.PropTypes.number,
-        duration: React.PropTypes.number
-    },
+class Time extends Component {
 
     /**
      * As controls receive all props for extensibility, we do a quick
@@ -17,7 +13,7 @@ var Time = React.createClass({
     shouldComponentUpdate(nextProps) {
         return this.props.currentTime !== nextProps.currentTime ||
                this.props.duration !== nextProps.duration;
-    },
+    }
 
     /**
      * Formats time into a friendlier format
@@ -29,7 +25,7 @@ var Time = React.createClass({
         seconds = isNaN(seconds) ? 0 : Math.floor(seconds);
         date.setSeconds(seconds);
         return date.toISOString().substr(11, 8);
-    },
+    }
 
     render() {
         return (
@@ -44,6 +40,6 @@ var Time = React.createClass({
             </div>
         );
     }
-});
+};
 
 export default Time;

@@ -9,14 +9,6 @@ module.exports = {
         './src/components/video/video.js'
     ],
     target: 'web',
-    externals: [{
-        react: {
-            root: 'React',
-            commonjs2: 'react',
-            commonjs: 'react',
-            amd: 'react'
-        }
-    }],
     output: {
         path: './dist',
         filename: 'ReactHtml5Video.js',

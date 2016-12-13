@@ -1,12 +1,8 @@
-import React from 'react';
+import Inferno from 'inferno';
+import Component from 'inferno-component'
 import Icon from './../../icon/Icon';
 
-var Fullscreen = React.createClass({
-
-    propTypes: {
-        copyKeys: React.PropTypes.object,
-        fullscreen: React.PropTypes.func
-    },
+class Fullscreen extends Component {
 
     /**
      * As controls receive all props for extensibility, we do a quick
@@ -16,7 +12,7 @@ var Fullscreen = React.createClass({
      */
     shouldComponentUpdate(nextProps) {
         return this.props.fullscreen !== nextProps.fullscreen;
-    },
+    }
 
     render() {
         return (
@@ -28,6 +24,6 @@ var Fullscreen = React.createClass({
             </button>
         );
     }
-});
+};
 
 export default Fullscreen;

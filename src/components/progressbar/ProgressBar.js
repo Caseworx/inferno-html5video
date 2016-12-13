@@ -1,18 +1,11 @@
-import React from 'react';
+import Inferno from 'inferno';
+import Component from 'inferno-component'
 
-var ProgressBar = React.createClass({
+class ProgressBar extends Component {
 
-    propTypes: {
-        orientation: React.PropTypes.string,
-        step: React.PropTypes.number,
-        progress: React.PropTypes.number,
-        onChange: React.PropTypes.func,
-        onFocus: React.PropTypes.func,
-        onBlur: React.PropTypes.func
-    },
-
-    getDefaultProps() {
-        return {
+    constructor() {
+        super();
+        this.props = {
             orientation: 'horizontal',
             step: 0.1,
             progress: 0,
@@ -20,26 +13,26 @@ var ProgressBar = React.createClass({
             onFocus: this.onFocus,
             onBlur: this.onBlur
         };
-    },
+    }
 
     componentDidMount() {
-        // 'orient' is not supported by React but
+        // 'orient' is not supported by Inferno but
         // is required for Firefox. Setting manually.
         // https://github.com/facebook/react/issues/2453
-        this.refs.input.setAttribute('orient', this.props.orientation);
-    },
+        this._input.setAttribute('orient', this.props.orientation);
+    }
 
     onChange() {
         // Placeholder
-    },
+    }
 
     onFocus() {
         // Placeholder
-    },
+    }
 
     onBlur() {
         // Placeholder
-    },
+    }
 
     render() {
         return (
@@ -51,7 +44,7 @@ var ProgressBar = React.createClass({
                 <input className="video-progress-bar__input"
                     onBlur={this.props.onBlur}
                     onFocus={this.props.onFocus}
-                    ref="input"
+                    ref={(el) => this._input = el }
                     onChange={this.props.onChange}
                     type="range"
                     min="0"
@@ -61,6 +54,6 @@ var ProgressBar = React.createClass({
             </div>
         );
     }
-});
+};
 
 export default ProgressBar;

@@ -1,17 +1,9 @@
-import React from 'react';
+import Inferno from 'inferno';
+import Component from 'inferno-component'
 import Icon from './../../icon/Icon';
 import Spinner from './../../spinner/Spinner';
 
-var Overlay = React.createClass({
-
-    propTypes: {
-        error: React.PropTypes.bool,
-        togglePlay: React.PropTypes.func,
-        paused: React.PropTypes.bool,
-        copyKeys: React.PropTypes.object,
-        loading: React.PropTypes.bool
-    },
-
+class Overlay extends Component {
     renderContent() {
         var content;
         if (this.props.error) {
@@ -34,7 +26,7 @@ var Overlay = React.createClass({
             );
         }
         return content;
-    },
+    }
 
     render() {
         return (
@@ -44,6 +36,6 @@ var Overlay = React.createClass({
         );
     }
 
-});
+};
 
 export default Overlay;
