@@ -21,7 +21,7 @@
     width: 45px;
     height: 40px;
     background-size: cover;
-    background-image: url('./../../../assets/img/react-logo.png');
+    background-image: url('./../../assets/img/react-logo.png');
 }
 
 .main__video {

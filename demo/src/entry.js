@@ -1,11 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Index from './components/index/Index';
+import Inferno from 'inferno';
 
-// For hot reloading to work it is essential
-// that our entry point only contains this render
-// and that the first component is a module.
-ReactDOM.render(
-    <Index />,
-    document.getElementById('content')
+import Header from './components/header/Header';
+import Main from './components/main/Main';
+
+
+Inferno.render(
+    <div className="index">
+        <Header />
+        <Main />
+    </div>,
+    document.getElementById('root')
 );

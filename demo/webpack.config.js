@@ -29,9 +29,13 @@ module.exports = {
         // Babel loader must be first as it's modified by server.js
         loaders: [{
             test: /\.js$/,
-            // Must be an array as server.js adds 'react-hot' loader
-            loaders: ['babel?optional=runtime'],
-            exclude: /node_modules/
+            loader: 'babel',
+            exclude: /node_modules/,
+            query: {
+                presets: ['es2015', 'inferno-app'],
+                plugins: [ 'syntax-jsx', 'inferno']
+            }
+
         }, {
             test: /\.css$/,
             loader: 'style-loader!css-loader'
@@ -39,19 +43,5 @@ module.exports = {
             test: /\.(svg|woff|ttf|eot|png|jpg|gif)(\?.*)?$/i,
             loader: 'url-loader?limit=10000'
         }]
-    },
-    plugins: [
-        // First two plugins are removed by server.js
-        new webpack.optimize.UglifyJsPlugin({
-            minimize: true,
-            output: {
-                comments: false
-            }
-        }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
-        })
-    ]
+    }
 };

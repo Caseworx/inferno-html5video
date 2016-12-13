@@ -1,24 +1,21 @@
-import React from 'react';
+import Inferno from 'Inferno';
+import Component from 'inferno-component'
 
-var Button = React.createClass({
+class Button extends Component {
 
-    propTypes: {
-        active: React.PropTypes.bool,
-        children: React.PropTypes.string,
-        onClick: React.PropTypes.func
-    },
 
-    getDefaultProps() {
-        return {
+    constructor () {
+        super();
+        this.props = {
             active: false,
             onClick: this.onClick,
             text: 'A button'
-        };
-    },
+        }
+    }
 
     onClick(e) {
         e.preventDefault();
-    },
+    }
 
     render() {
         return (
@@ -28,6 +25,6 @@ var Button = React.createClass({
         );
     }
 
-});
+};
 
 export default Button;

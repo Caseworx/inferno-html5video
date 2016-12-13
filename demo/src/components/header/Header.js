@@ -1,8 +1,9 @@
-import React from 'react';
-import Icon from './../../icon/Icon';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 
-var Header = React.createClass({
+import Icon from './../icon/Icon';
 
+class Header extends Component {
     render() {
         return (
             <div className="header">
@@ -13,7 +14,6 @@ var Header = React.createClass({
             </div>
         );
     }
-
-});
+};
 
 export default Header;
