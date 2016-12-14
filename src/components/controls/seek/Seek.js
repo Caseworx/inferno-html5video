@@ -27,21 +27,21 @@ class Seek extends Component {
      * @param  {object} e Event object
      * @return {undefined}
      */
-    seek(e) {
+    seek = (e) => {
         this.props.seek(e.target.value * this.props.duration / 100, true);
-    }
+    };
 
-    onFocus() {
+    onFocus = () => {
         this.setState({
             focused: true
         });
-    }
+    };
 
-    onBlur() {
+    onBlur = () => {
         this.setState({
             focused: false
         });
-    }
+    };
 
     render() {
         return (

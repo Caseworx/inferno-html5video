@@ -4,7 +4,7 @@ import Icon from './../../icon/Icon';
 import Spinner from './../../spinner/Spinner';
 
 class Overlay extends Component {
-    renderContent() {
+    renderContent = () => {
         var content;
         if (this.props.error) {
             content = (

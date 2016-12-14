@@ -13,8 +13,7 @@ class Controls extends Component {
 
     constructor(props) {
         super(props);
-        this.props = update(this.props, {
-            $merge: {
+        this.props = update({
                 children: [
                     <Play />,
                     <Seek />,
@@ -22,8 +21,7 @@ class Controls extends Component {
                     <Mute />,
                     <Fullscreen />
                 ]
-            }
-        });
+            }, { $merge: this.props, });
     }
 
     /**
@@ -32,7 +30,8 @@ class Controls extends Component {
      * for when custom React components are used.
      * @return {Array.<ReactElement>} An array of components.
      */
-    renderChildren() {
+    renderChildren = () => {
+        // console.log(this.props.children)
         if (this.props.children) {
             return (this.props.children).map( child => {
                 return Inferno.cloneVNode(child, {...this.props});
@@ -40,13 +39,13 @@ class Controls extends Component {
         } else {
             return this.props.children
         }
-    }
+    };
 
     render() {
         return (
             !this.props.error ? (
                 <div className="video-controls video__controls">
-                    {this.renderChildren()}
+                    { this.renderChildren() }
                 </div>
             ) : null
         );

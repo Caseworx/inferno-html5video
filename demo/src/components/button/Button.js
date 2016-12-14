@@ -21,7 +21,7 @@ class Button extends Component {
 
     render() {
         return (
-            <button className={'button ' + (this.props.active ? 'button--active' : '')} onClick={this.props.onClick} href="#">
+            <button type="button" className={'button ' + (this.props.active ? 'button--active' : '')} onClick={this.props.onClick}>
                 {this.props.children}
             </button>
         );
