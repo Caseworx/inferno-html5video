@@ -1,14 +1,14 @@
 {
   "name": "react-html5video",
-  "version": "1.4.0",
-  "homepage": "https://github.com/mderrick/react-html5video",
+  "version": "1.0.0",
+  "homepage": "https://github.com/Caseworx/inferno-html5video",
   "authors": [
     "me@mattderrick.co.uk"
   ],
-  "description": "A customizeable HTML5 Video React component that uses the familiar HTML5 video markup but with custom and configurable controls with i18n and a11y.",
+  "description": "A customizeable HTML5 Video Inferno component that uses the familiar HTML5 video markup but with custom and configurable controls with i18n and a11y.",
   "main": [
-    "./dist/ReactHtml5Video.js",
-    "./dist/ReactHtml5Video.css"
+    "./dist/InfernoHtml5Video.js",
+    "./dist/InfernoHtml5Video.css"
   ],
   "keywords": [
     "React",

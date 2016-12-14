@@ -4,23 +4,10 @@ import ProgressBar from './../../progressbar/ProgressBar';
 
 class Seek extends Component {
 
-    constructor() {
-        super();
+    componentWillMount() {
         this.setState({
             focused: false
         })
-    }
-    /**
-     * As controls receive all props for extensibility, we do a quick
-     * check and make sure only the props we care about have changed.
-     * @param  {object} nextProps The next props from parent
-     * @return {boolean}          Whether we re-render or not
-     */
-    shouldComponentUpdate(nextProps) {
-        return this.props.seek !== nextProps.seek ||
-               this.props.percentageBuffered !== nextProps.percentageBuffered ||
-               this.props.percentagePlayed !== nextProps.percentagePlayed ||
-               this.props.duration !== nextProps.duration;
     }
 
     /**
@@ -28,21 +15,22 @@ class Seek extends Component {
      * @param  {object} e Event object
      * @return {undefined}
      */
-    seek(e) {
+    seek = (e) => {
+        console.log(e)
         this.props.seek(e.target.value * this.props.duration / 100, true);
-    }
+    };
 
-    onFocus() {
+    onFocus = () => {
         this.setState({
             focused: true
         });
-    }
+    };
 
-    onBlur() {
+    onBlur = () => {
         this.setState({
             focused: false
         });
-    }
+    };
 
     render() {
         return (

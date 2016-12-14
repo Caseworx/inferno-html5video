@@ -5,7 +5,8 @@
   "main": "entry.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-server": "NODE_ENV=development node server.js"
+    "dev": "NODE_ENV=development node server.js",
+    "dist": "NODE_ENV=production node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +24,6 @@
     "babel-preset-inferno-app": "1.0.1",
     "babel-runtime": "6.3.13",
     "case-sensitive-paths-webpack-plugin": "1.1.4",
-    "coding-standards": "git+ssh://git@github.com/60frames/coding-standards.git#1.0.5",
     "css-loader": "^0.21.0",
     "eslint": "^3.8.1",
     "eslint-loader": "1.6.0",
@@ -32,8 +32,8 @@
     "eslint-plugin-inferno": "6.6.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "extract-text-webpack-plugin": "^0.8.2",
-    "inferno": "1.0.0-beta32",
-    "inferno-component": "1.0.0-beta32",
+    "inferno": "1.0.0-beta33",
+    "inferno-component": "1.0.0-beta33",
     "file-loader": "^0.8.4",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.2",

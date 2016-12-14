@@ -3,24 +3,29 @@ import Component from 'inferno-component'
 
 class ProgressBar extends Component {
 
-    constructor() {
-        super();
-        this.props = {
+    constructor(props) {
+        super(props);
+
+    }
+
+    static get defaultProps () {
+        return {
             orientation: 'horizontal',
             step: 0.1,
             progress: 0,
             onChange: this.onChange,
             onFocus: this.onFocus,
             onBlur: this.onBlur
-        };
-    }
+        }
+    };
+
 
     componentDidMount() {
         // 'orient' is not supported by Inferno but
         // is required for Firefox. Setting manually.
         // https://github.com/facebook/react/issues/2453
-        this._input.setAttribute('orient', this.props.orientation);
-    }
+        this._input.setAttribute('orient', this.state.orientation);
+    };
 
     onChange() {
         // Placeholder
@@ -45,7 +50,7 @@ class ProgressBar extends Component {
                     onBlur={this.props.onBlur}
                     onFocus={this.props.onFocus}
                     ref={(el) => this._input = el }
-                    onChange={this.props.onChange}
+                    onInput={this.props.onChange}
                     type="range"
                     min="0"
                     max="100"

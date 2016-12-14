@@ -24,12 +24,13 @@ class Mute extends Component {
      * @param  {object} e Event object
      * @return {undefined}
      */
-    changeVolume(e) {
+    changeVolume = (e) => {
+        console.log(e);
         this.props.setVolume(e.target.value / 100, true);
         this.props.unmute();
-    }
+    };
 
-    toggleMute() {
+    toggleMute = () => {
         // If we volume has been dragged to 0, assume it is in
         // a muted state and then toggle to full volume.
         if (this.props.volume <= 0) {
@@ -37,7 +38,7 @@ class Mute extends Component {
         } else {
             this.props.toggleMute();
         }
-    }
+    };
 
     render() {
         return (

@@ -1,10 +1,10 @@
-import Inferno from 'inferno';
+import Inferno, { linkEvent } from 'inferno';
 import Component from 'inferno-component';
 import Button from './../button/Button';
 import browserStackLogo from './../../../browserstack.png';
-import {default as Video, Controls, Overlay} from './../../../../src/components/video/Video';
+import { default as Video, Controls, Overlay } from './../../../../src/components/video/Video';
 
-var videos = [
+const videos = [
     // TODO: Don't hot link these. upload them somewhere.
     'http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov',
     'http://media.w3.org/2010/05/sintel/trailer.mp4',
@@ -15,93 +15,95 @@ var videos = [
 
 class Main extends Component {
 
-    constructor () {
-        super();
+    constructor(props) {
+        super(props);
+        this.state = {
+            videoId: 0
+        }
     }
 
-    componentWillMount() {
-        this.setState({videoId: 0})
-    }
-
-    showVideo(id) {
+    showVideo = (id) => {
         this.setState({
             videoId: id
         }, this.reloadVideo);
     }
 
-    reloadVideo() {
+    reloadVideo = () => {
         // When changing a HTML5 video, you have to reload it.
         this._video.load();
         this._video.play();
-    }
+    };
 
-    togglePlay() {
+    togglePlay = () => {
         this._video.togglePlay();
-    }
+    };
 
-    toggleMute() {
+    toggleMute = () => {
         this._video.toggleMute()
-    }
+    };
 
-    fullscreen() {
+    fullscreen = () => {
         this._video.fullscreen();
-    }
+    };
 
-    load() {
+    load = () => {
         this._video.load();
-    }
+    };
 
-    play() {
+    play = () => {
         this._video.play();
-    }
+    };
 
-    pause() {
+    pause = () => {
         this._video.pause();
-    }
+    };
 
-    unmute() {
+    unmute = () => {
         this._video.unmute();
-    }
+    };
 
-    mute() {
+    mute = () => {
         this._video.mute();
-    }
+    };
 
-    seek() {
+    seek = () => {
         this._video.seek(this._seekInput.valueAsNumber);
-    }
+    };
 
-    setVolume() {
+    setVolume = () => {
         this._video.setVolume(this._volumeInput.valueAsNumber);
-    }
+    };
 
-    setPlaybackRate() {
+    setPlaybackRate = () => {
         this._video.setPlaybackRate(this._playbackRateInput.valueAsNumber);
-    }
+    };
 
-    onProgress() {
-        var el = InfernoDOM.findDOMNode(this._video).getElementsByTagName('video')[0];
+    onProgress = (event) => {
+        const el = event.target;
         this.setState({
             percentageLoaded: el.buffered.length && el.buffered.end(el.buffered.length - 1) / el.duration * 100
         });
-    }
+    };
 
     render() {
+        const currentVideo = videos[this.state.videoId];
+
         return (
             <div className="main">
-                <h1 className="main__title">
-                    <span className="main__react-logo"></span> Inferno HTML5 Video
-                </h1>
+                <div className="main__logo-title">
+                    <span className="main__inferno-logo"> </span>
+                    <h1 className="main__title"> HTML5 Video </h1>
+                </div>
                 <div className="main__video">
                     <Video
                         className="custom-class"
-                        controls
-                        autoPlay
-                        loop
-                        muted
+                        controls={true}
+                        autoplay={false}
+                        loop={false}
+                        muted={false}
                         ref={ el => this._video = el }
-                        onProgress={this.onProgress}>
-                        <source src={videos[this.state.videoId]} type="video/mp4"/>
+                        onProgress={ this.onProgress.bind(this) }>
+                        <source src={currentVideo} type="video/mp4"/>
                         <Overlay />
                         <Controls />
                     </Video>
@@ -110,14 +112,10 @@ class Main extends Component {
                     <div className="main__col1">
                         <h2 className="main__h2">Change Video Source</h2>
                         <ul className="main__ul">
-                            <li><Button active={this.state.videoId === 0}
-                                        onClick={this.showVideo.bind(this, 0)}>1</Button></li>
-                            <li><Button active={this.state.videoId === 1}
-                                        onClick={this.showVideo.bind(this, 1)}>2</Button></li>
-                            <li><Button active={this.state.videoId === 2}
-                                        onClick={this.showVideo.bind(this, 2)}>3</Button></li>
-                            <li><Button active={this.state.videoId === 3} onClick={this.showVideo.bind(this, 3)}>Unsupported Source</Button>
-                            </li>
+                            <li><Button active={this.state.videoId === 0} onClick={linkEvent(0, this.showVideo)}>1</Button></li>
+                            <li><Button active={this.state.videoId === 1} onClick={linkEvent(1, this.showVideo)}>2</Button></li>
+                            <li><Button active={this.state.videoId === 2} onClick={linkEvent(2, this.showVideo)}>3</Button></li>
+                            <li><Button active={this.state.videoId === 3} onClick={linkEvent(3, this.showVideo)}>Unsupported Source</Button></li>
                         </ul>
                         <h2 className="main__h2">Video Loaded</h2>
                         {this.state.percentageLoaded}%
@@ -172,6 +170,6 @@ class Main extends Component {
             </div>
         );
     }
-};
+}
 
 export default Main;

@@ -1,12 +1,10 @@
 import Inferno from 'Inferno';
 import Component from 'inferno-component'
-
+import update from 'immutability-helper'
 class Button extends Component {
 
-
-    constructor () {
-        super();
-        this.props = {
+    static get defaultProps() {
+        return {
             active: false,
             onClick: this.onClick,
             text: 'A button'
@@ -19,7 +17,7 @@ class Button extends Component {
 
     render() {
         return (
-            <button className={'button ' + (this.props.active ? 'button--active' : '')} onClick={this.props.onClick} href="#">
+            <button type="button" className={'button ' + (this.props.active ? 'button--active' : '')} onClick={this.props.onClick}>
                 {this.props.children}
             </button>
         );

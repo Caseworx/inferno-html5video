@@ -9,5 +9,5 @@ Inferno.render(
         <Header />
         <Main />
     </div>,
-    document.getElementById('root')
+    document.getElementById('content')
 );

@@ -29,6 +29,6 @@ module.exports = {
         }]
     },
     plugins: [
-        new ExtractTextPlugin('ReactHtml5Video.css')
+        new ExtractTextPlugin('InfernoHtml5Video.css')
     ]
 };

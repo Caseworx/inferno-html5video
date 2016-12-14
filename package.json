@@ -1,23 +1,23 @@
 {
-  "name": "react-html5video",
-  "version": "1.4.0",
+  "name": "inferno-html5video",
+  "version": "1.0.0",
   "description": "",
-  "main": "./dist/ReactHtml5Video.js",
+  "main": "./dist/InfernoHtml5Video.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mderrick/react-html5video.git"
+    "url": "https://github.com/Caseworx/inferno-html5video.git"
   },
   "bugs": {
-    "url": "https://github.com/mderrick/react-html5video/issues"
+    "url": "https://github.com/Caseworx/inferno-html5video/issues"
   },
-  "homepage": "https://github.com/mderrick/react-html5video",
+  "homepage": "https://github.com/Caseworx/inferno-html5video",
   "author": {
-    "name": "Matt Derrick",
-    "email": "me@mattderrick.co.uk",
-    "url": "http://mattderrick.co.uk"
+    "name": "Rudy Luthi",
+    "email": "rluthi@caseworx.co",
+    "url": "http://caseworx.co"
   },
   "license": "MIT",
   "dependencies": {
@@ -32,7 +32,6 @@
     "babel-preset-inferno-app": "1.0.1",
     "case-sensitive-paths-webpack-plugin": "1.1.4",
     "babel-runtime": "^6.3.13",
-    "coding-standards": "git+ssh://git@github.com:60frames/coding-standards.git#1.0.5",
     "css-loader": "^0.21.0",
     "eslint": "^3.8.1",
     "eslint-config-inferno-app": "^0.3.0",
@@ -46,8 +45,8 @@
     "grunt": "^0.4.5",
     "grunt-fontello-react": "^3.0.0",
     "grunt-gh-pages": "^0.10.0",
-    "inferno": "1.0.0-beta32",
-    "inferno-component": "1.0.0-beta32",
+    "inferno": "1.0.0-beta33",
+    "inferno-component": "1.0.0-beta33",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.2"

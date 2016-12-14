@@ -3,19 +3,11 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component'
 
-class Icon extends Component {
-    constructor() {
-        super();
-        this.props = {
-            name: 'play-1'
-        };
-    }
-
-    render() {
-        return (
-            <span className={'video-icon video-icon--' + this.props.name}></span>
-        );
-    }
+const Icon = (props) => {
+    const iconName = props.name ? props.name : 'play-1';
+    return (
+        <span className={'video-icon video-icon--' + iconName}> </span>
+    );
 };
 
 export default Icon;

@@ -1,21 +1,10 @@
-/*eslint-disable */
-
 import Inferno from 'inferno';
-import Component from 'inferno-component';
 
-class Icon extends Component {
-    constructor () {
-        super();
-        this.props = {
-            name: 'github-circled-alt2'
-        }
-    }
-
-    render() {
-        return (
-            <span className={'icon icon--' + this.props.name}></span>
-        );
-    }
+const Icon = (props) => {
+    const name = props.name ? props.name : 'github-circled-alt2';
+    return (
+        <span className={'icon icon--' + name}> </span>
+    );
 };
 
 export default Icon;

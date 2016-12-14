@@ -1,6 +1,5 @@
-import Inferno from 'inferno';
+import Inferno, { linkEvent } from 'inferno';
 import Component from 'inferno-component';
-import createElement from 'inferno-create-element'
 import Overlay from './overlay/Overlay';
 import Controls from './../controls/Controls';
 import Seek from './../controls/seek/Seek';
@@ -8,9 +7,8 @@ import Play from './../controls/play/Play';
 import Mute from './../controls/mute/Mute';
 import Fullscreen from './../controls/fullscreen/Fullscreen';
 import Time from './../controls/time/Time';
-import update from 'immutability-helper';
-import throttle from 'lodash.throttle';
 import copy from './../../assets/copy';
+import throttle from 'lodash.throttle'
 
 const EVENTS = [
     'onAbort',
@@ -41,15 +39,24 @@ const EVENTS = [
 class Video extends Component {
     constructor(props) {
         super(props);
-        // Set state from props and always use these
-        // to check state of video as they will update
-        // on the video events. Changing this state however will not
-        // change the video. The API methods must be used.
-        this.props = update(this.props, {
-            $merge: {
-                copyKeys: copy
-            }
-        });
+
+        // Set up all Inferno media events and call method
+        // on props if provided.
+        this.state = {
+            networkState: 0,
+            paused: !this.props.autoplay,
+            muted: !!this.props.muted,
+            volume: 1,
+            playbackRate: 1,
+            error: false,
+            loading: false,
+        }
+    }
+
+    static get defaultProps () {
+        return {
+            copyKeys: copy
+        }
     }
 
     /**
@@ -57,19 +64,8 @@ class Video extends Component {
      * @return {undefined}
      */
     componentWillMount() {
-        this.setState(update(this.state, {
-            $merge: {
-                networkState: 0,
-                paused: !this.props.autoPlay,
-                muted: !!this.props.muted,
-                volume: 1,
-                playbackRate: 1,
-                error: false,
-                loading: false
-                }
-        }));
-        this._updateStateFromVideo = throttle(this.updateStateFromVideo, 100);
-        // Set up all Inferno media events and call method
+        this._updateStateFromVideo = throttle(this.updateStateFromVideo, 100)
+        // Set up all media events and call method
         // on props if provided.
         this.mediaEventProps = EVENTS.reduce((p, c) => {
             p[c] = (e) => {
@@ -83,19 +79,18 @@ class Video extends Component {
         }, {});
     }
 
-    /**
-     * Bind eventlisteners not supported by Inferno's synthetic events
-     * https://facebook.github.io/react/docs/events.html
-     * @return {undefined}
-     */
     componentDidMount() {
         // Listen to error of last source.
+        this.state = {
+            ...this.state,
+            videoEl: this.videoEl,
+        };
         this.videoEl.children[this.videoEl.children.length - 1]
             .addEventListener('error', this._updateStateFromVideo);
     }
 
     /**
-     * Removes event listeners bound outside of Inferno's synthetic events
+     * Removes event listeners bound outside of React's synthetic events
      * @return {undefined}
      */
     componentWillUnmount() {
@@ -106,45 +101,46 @@ class Video extends Component {
         // the video has been unmounted.
         // https://github.com/mderrick/react-html5video/issues/35
         this._updateStateFromVideo.cancel();
-    }
+    };
+
 
     /**
      * Toggles the video to play and pause.
      * @return {undefined}
      */
-    togglePlay() {
+    togglePlay = () => {
         if (this.state.paused) {
             this.play();
         } else {
             this.pause();
         }
-    }
+    };
 
     /**
      * Toggles the video to mute and unmute.
      * @return {undefined}
      */
-    toggleMute() {
+    toggleMute = () => {
         if (this.state.muted) {
             this.unmute();
         } else {
             this.mute();
         }
-    }
+    };
 
     /**
      * Loads video.
      * @return {undefined}
      */
-    load() {
+    load = () => {
         this.videoEl.load();
-    }
+    };
 
     /**
      * Sets the video to fullscreen.
      * @return {undefined}
      */
-    fullscreen() {
+    fullscreen = () => {
         if (this.videoEl.requestFullscreen) {
             this.videoEl.requestFullscreen();
         } else if (this.videoEl.msRequestFullscreen) {
@@ -154,39 +150,39 @@ class Video extends Component {
         } else if (this.videoEl.webkitRequestFullscreen) {
             this.videoEl.webkitRequestFullscreen();
         }
-    }
+    };
 
     /**
      * Plays the video.
      * @return {undefined}
      */
-    play() {
+    play = () => {
         this.videoEl.play();
-    }
+    };
 
     /**
      * Pauses the video.
      * @return {undefined}
      */
-    pause() {
+    pause = () => {
         this.videoEl.pause();
-    }
+    };
 
     /**
      * Unmutes video.
      * @return {undefined}
      */
-    unmute() {
+    unmute = () => {
         this.videoEl.muted = false;
-    }
+    };
 
     /**
      * Mutes the video.
      * @return {undefined}
      */
-    mute() {
+    mute = () => {
         this.videoEl.muted = true;
-    }
+    };
 
     /**
      * Seeks the video timeline.
@@ -195,7 +191,7 @@ class Video extends Component {
      *                              throttled event.
      * @return {undefined}
      */
-    seek(time, forceUpdate) {
+    seek = (time, forceUpdate) => {
         this.videoEl.currentTime = time;
         // In some use cases, we wish not to wait for `onSeeked` or `onSeeking`
         // throttled event to update state so we force it. This is because
@@ -204,7 +200,7 @@ class Video extends Component {
         if (forceUpdate) {
             this.updateStateFromVideo();
         }
-    }
+    };
 
     /**
      * Sets the video volume.
@@ -213,7 +209,7 @@ class Video extends Component {
      *                              throttled event.
      * @return {undefined}
      */
-    setVolume(volume, forceUpdate) {
+    setVolume = (volume, forceUpdate) => {
         this.videoEl.volume = volume;
         // In some use cases, we wish not to wait for `onVolumeChange`
         // throttled event to update state so we force it. This is because
@@ -222,24 +218,32 @@ class Video extends Component {
         if (forceUpdate) {
             this.updateStateFromVideo();
         }
-    }
+    };
+    /**
+    * Sets a ref to the video element.
+    * @param  {node} el The video element reference
+    * @return {undefined}
+    */
+    setVideoRef = (el) => {
+        this.videoEl = el;
+    };
 
     /**
      * Sets the video playback rate.
      * @param  {number} rate The playback rate (default 1.0).
      * @return {undefined}
      */
-    setPlaybackRate(rate) {
+    setPlaybackRate = (rate) => {
         this.videoEl.playbackRate = rate;
         this.updateStateFromVideo();
-    }
+    };
 
     /**
      * Updates the Inferno component state from the DOM video properties.
      * This is where the magic happens.
      * @return {undefined}
      */
-    updateStateFromVideo() {
+    updateStateFromVideo = () => {
         this.setState({
             // Standard video properties
             duration: this.videoEl.duration,
@@ -256,8 +260,8 @@ class Video extends Component {
             percentagePlayed: this.videoEl.currentTime / this.videoEl.duration * 100,
             error: this.videoEl.networkState === this.videoEl.NETWORK_NO_SOURCE,
             loading: this.videoEl.readyState < this.videoEl.HAVE_ENOUGH_DATA
-        });
-    }
+        })
+    };
 
     /**
      * Returns everything but 'source' nodes from children
@@ -265,10 +269,9 @@ class Video extends Component {
      * If there are no controls provided, returns default Controls.
      * @return {Array.<InfernoElement>} An array of components.
      */
-    renderControls() {
-        var extendedProps = Object.assign({
-            // The public methods that all controls should be able to
-            // use.
+    renderControls = () => {
+        const extendedProps = {
+            ...this.state,
             togglePlay: this.togglePlay,
             toggleMute: this.toggleMute,
             play: this.play,
@@ -279,17 +282,15 @@ class Video extends Component {
             fullscreen: this.fullscreen,
             setVolume: this.setVolume,
             setPlaybackRate: this.setPlaybackRate,
-        }, this.state, {copyKeys: this.props.copyKeys});
-        var controls = (this.props.children).map( (child) => {
-            console.log(child)
-            if (child.type === 'source') {
-                return void 0;
-            }
+            copyKeys: this.props.copyKeys
+        };
+
+        let controls = this.props.children.filter(child => child.type !== 'source').map( (child) => {
             return Inferno.cloneVNode(child, extendedProps);
         });
-        console.log(controls)
 
-        if (!controls.length) {
+        if (controls.length) {
+        } else {
             controls = (
                 <div>
                     <Overlay {...extendedProps} />
@@ -298,29 +299,15 @@ class Video extends Component {
             );
         }
         return controls;
-    }
-
-    /**
-     * Returns video 'source' nodes from children.
-     * @return {Array.<InfernoElement>} An array of components.
-     */
-    renderSources() {
-        console.log('renderSources', this.props)
-        return (this.props.children).map( (child) => {
-            if (child.type !== 'source') {
-                return void 0;
-            }
-            return child;
-        });
-    }
+    };
 
     /**
      * Gets the video class name based on its state
      * @return {string} Class string
      */
-    getVideoClassName() {
-        var {className} = this.props;
-        var classString = 'video';
+    getVideoClassName = () => {
+        const {className} = this.props;
+        let classString = 'video';
 
         if (this.state.error) {
             classString += ' video--error';
@@ -339,35 +326,37 @@ class Video extends Component {
             classString += ' ' + className;
         }
         return classString;
-    }
+    };
 
-    /**
+     /**
      * Sets state to show focused class on video player.
      * @return {undefined}
      */
-    onFocus() {
+    onFocus = () => {
         this.setState({
             focused: true
         });
-    }
+    };
 
     /**
      * Sets state to not be focused to remove class form video
      * player.
      * @return {undefined}
      */
-    onBlur() {
+    onBlur = () => {
         this.setState({
             focused: false
         });
     };
 
+
     render() {
         // If controls prop is provided remove it
         // and use our own controls.
-        // Leave `copyKeys` here even though not used
-        // as per issue #36.
-        var {controls, copyKeys, style, ...otherProps} = this.props;
+        const {controls, style, copyKeys, ...otherProps} = this.props;
+        const rendered_controls = controls ? this.renderControls() : '';
+        const video_sources = this.props.children.filter( child => child.type === 'source' )
+
         return (
             <div className={this.getVideoClassName()}
                 tabIndex="0"
@@ -375,21 +364,18 @@ class Video extends Component {
                 onBlur={this.onBlur}
                 style={style}>
                 <video
-                    {...otherProps}
+                    { ...otherProps }
                     className="video__el"
-                    ref={(el) => { this.videoEl = el; }}
-                    //  We have throttled `_updateStateFromVideo` so listen to
-                    //  every available Media event that Inferno allows and
+                    ref={this.setVideoRef}
+                    //  listen to every available Media event and
                     //  infer the Video state in that method from the Video properties.
-                    {...this.mediaEventProps}>
-                        {this.renderSources()}
+                    { ...this.mediaEventProps }>
+                    { video_sources }
                 </video>
-                {controls ? this.renderControls() : ''}
+                { rendered_controls }
             </div>
         );
     };
 }
 
 export {Video as default, Controls, Seek, Play, Mute, Fullscreen, Time, Overlay};
-                {/*{controls ? this.renderControls() : ''}*/}
-                        {/*{this.renderSources()}*/}
