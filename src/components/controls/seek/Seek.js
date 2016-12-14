@@ -3,19 +3,18 @@ import Component from 'inferno-component'
 import ProgressBar from './../../progressbar/ProgressBar';
 
 class Seek extends Component {
-
-    constructor() {
-        super();
-        this.setState({
-            focused: false
-        })
-    }
     /**
      * As controls receive all props for extensibility, we do a quick
      * check and make sure only the props we care about have changed.
      * @param  {object} nextProps The next props from parent
      * @return {boolean}          Whether we re-render or not
      */
+    componentWillMount() {
+        this.setState({
+            focused: false
+        })
+    }
+
     shouldComponentUpdate(nextProps) {
         return this.props.seek !== nextProps.seek ||
                this.props.percentageBuffered !== nextProps.percentageBuffered ||

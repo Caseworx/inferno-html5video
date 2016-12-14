@@ -4,11 +4,6 @@ import Icon from './../../icon/Icon';
 
 class Play extends Component {
 
-    constructor(props) {
-        super(props)
-        console.log(this.props)
-    }
-
     /**
      * As controls receive all props for extensibility, we do a quick
      * check and make sure only the props we care about have changed.

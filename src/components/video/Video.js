@@ -1,6 +1,5 @@
-import Inferno from 'inferno';
+import Inferno, { linkEvent } from 'inferno';
 import Component from 'inferno-component';
-import createElement from 'inferno-create-element'
 import Overlay from './overlay/Overlay';
 import Controls from './../controls/Controls';
 import Seek from './../controls/seek/Seek';
@@ -83,21 +82,17 @@ class Video extends Component {
         }, {});
     }
 
-    /**
-     * Bind eventlisteners not supported by Inferno's synthetic events
-     * https://facebook.github.io/react/docs/events.html
-     * @return {undefined}
-     */
     componentDidMount() {
         // Listen to error of last source.
+        this.props = update(this.props, {
+            $merge: {
+                videoEl: this.videoEl
+            }
+        });
         this.videoEl.children[this.videoEl.children.length - 1]
             .addEventListener('error', this._updateStateFromVideo);
     }
 
-    /**
-     * Removes event listeners bound outside of Inferno's synthetic events
-     * @return {undefined}
-     */
     componentWillUnmount() {
         // Remove event listener from video.
         this.videoEl.children[this.videoEl.children.length - 1]
@@ -107,6 +102,7 @@ class Video extends Component {
         // https://github.com/mderrick/react-html5video/issues/35
         this._updateStateFromVideo.cancel();
     }
+
 
     /**
      * Toggles the video to play and pause.
@@ -280,15 +276,12 @@ class Video extends Component {
             setVolume: this.setVolume,
             setPlaybackRate: this.setPlaybackRate,
         }, this.state, {copyKeys: this.props.copyKeys});
-        var controls = (this.props.children).map( (child) => {
-            console.log(child)
+        let controls = (this.props.children).map( (child) => {
             if (child.type === 'source') {
                 return void 0;
             }
             return Inferno.cloneVNode(child, extendedProps);
         });
-        console.log(controls)
-
         if (!controls.length) {
             controls = (
                 <div>
@@ -305,7 +298,6 @@ class Video extends Component {
      * @return {Array.<InfernoElement>} An array of components.
      */
     renderSources() {
-        console.log('renderSources', this.props)
         return (this.props.children).map( (child) => {
             if (child.type !== 'source') {
                 return void 0;
@@ -319,8 +311,8 @@ class Video extends Component {
      * @return {string} Class string
      */
     getVideoClassName() {
-        var {className} = this.props;
-        var classString = 'video';
+        const {className} = this.props;
+        let classString = 'video';
 
         if (this.state.error) {
             classString += ' video--error';
@@ -341,27 +333,6 @@ class Video extends Component {
         return classString;
     }
 
-    /**
-     * Sets state to show focused class on video player.
-     * @return {undefined}
-     */
-    onFocus() {
-        this.setState({
-            focused: true
-        });
-    }
-
-    /**
-     * Sets state to not be focused to remove class form video
-     * player.
-     * @return {undefined}
-     */
-    onBlur() {
-        this.setState({
-            focused: false
-        });
-    };
-
     render() {
         // If controls prop is provided remove it
         // and use our own controls.
@@ -371,8 +342,6 @@ class Video extends Component {
         return (
             <div className={this.getVideoClassName()}
                 tabIndex="0"
-                onFocus={this.onFocus}
-                onBlur={this.onBlur}
                 style={style}>
                 <video
                     {...otherProps}

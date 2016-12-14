@@ -1,9 +1,9 @@
-import Inferno from 'inferno';
+import Inferno, { linkEvent } from 'inferno';
 import Component from 'inferno-component';
 import Button from './../button/Button';
 import browserStackLogo from './../../../browserstack.png';
 import {default as Video, Controls, Overlay} from './../../../../src/components/video/Video';
-
+Inferno.enableFindDOMNode();
 var videos = [
     // TODO: Don't hot link these. upload them somewhere.
     'http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov',
@@ -15,21 +15,18 @@ var videos = [
 
 class Main extends Component {
 
-    constructor () {
-        super();
-    }
-
     componentWillMount() {
         this.setState({videoId: 0})
     }
 
-    showVideo(id) {
-        this.setState({
-            videoId: id
-        }, this.reloadVideo);
+    showVideo(instance, event) {
+        instance.setState({
+            videoId: event.target.value
+        }, instance.reloadVideo);
     }
 
     reloadVideo() {
+        console.log(this)
         // When changing a HTML5 video, you have to reload it.
         this._video.load();
         this._video.play();
@@ -80,7 +77,7 @@ class Main extends Component {
     }
 
     onProgress() {
-        var el = InfernoDOM.findDOMNode(this._video).getElementsByTagName('video')[0];
+        const el = this.props.videoEl;
         this.setState({
             percentageLoaded: el.buffered.length && el.buffered.end(el.buffered.length - 1) / el.duration * 100
         });
@@ -100,7 +97,7 @@ class Main extends Component {
                         loop
                         muted
                         ref={ el => this._video = el }
-                        onProgress={this.onProgress}>
+                        onProgress={ linkEvent(this, this.onProgress)}>
                         <source src={videos[this.state.videoId]} type="video/mp4"/>
                         <Overlay />
                         <Controls />
@@ -111,12 +108,13 @@ class Main extends Component {
                         <h2 className="main__h2">Change Video Source</h2>
                         <ul className="main__ul">
                             <li><Button active={this.state.videoId === 0}
-                                        onClick={this.showVideo.bind(this, 0)}>1</Button></li>
+                                        onClick={ linkEvent(this, this.showVideo) } value="1">1</Button></li>
                             <li><Button active={this.state.videoId === 1}
-                                        onClick={this.showVideo.bind(this, 1)}>2</Button></li>
+                                        onClick={ linkEvent(this, this.showVideo) } value="2">2</Button></li>
                             <li><Button active={this.state.videoId === 2}
-                                        onClick={this.showVideo.bind(this, 2)}>3</Button></li>
-                            <li><Button active={this.state.videoId === 3} onClick={this.showVideo.bind(this, 3)}>Unsupported Source</Button>
+                                        onClick={ linkEvent(this, this.showVideo) } value="3">3</Button></li>
+                            <li><Button active={this.state.videoId === 3}
+                                        onClick={ linkEvent(this, this.showVideo) } value="4">Unsupported Source</Button>
                             </li>
                         </ul>
                         <h2 className="main__h2">Video Loaded</h2>

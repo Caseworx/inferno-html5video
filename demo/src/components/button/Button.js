@@ -1,16 +1,18 @@
 import Inferno from 'Inferno';
 import Component from 'inferno-component'
-
+import update from 'immutability-helper'
 class Button extends Component {
 
 
-    constructor () {
-        super();
-        this.props = {
-            active: false,
-            onClick: this.onClick,
-            text: 'A button'
-        }
+    constructor (props) {
+        super(props);
+        this.props = update({
+                active: false,
+                onClick: this.onClick,
+                text: 'A button'
+            }, {
+            $merge : props
+        });
     }
 
     onClick(e) {

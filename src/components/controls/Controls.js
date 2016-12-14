@@ -1,6 +1,6 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component'
-import createElement from 'inferno-create-element';
+// import InfernoDOM from 'inferno-dom';
 import update from 'immutability-helper'
 
 import Play from './play/Play';
@@ -33,10 +33,13 @@ class Controls extends Component {
      * @return {Array.<ReactElement>} An array of components.
      */
     renderChildren() {
-        return (this.props.children).map( child => {
-            console.log(child)
-            return createElement(child, {...this.props});
-        });
+        if (this.props.children) {
+            return (this.props.children).map( child => {
+                return Inferno.cloneVNode(child, {...this.props});
+            });
+        } else {
+            return this.props.children
+        }
     }
 
     render() {
