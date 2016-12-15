@@ -1,8 +1,8 @@
 {
-  "name": "react-html5video",
+  "name": "inferno-html5video",
   "version": "1.4.0",
   "description": "",
-  "main": "./dist/ReactHtml5Video.js",
+  "main": "./dist/InfernoHtml5Video.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,11 +13,11 @@
   "bugs": {
     "url": "https://github.com/mderrick/react-html5video/issues"
   },
-  "homepage": "https://github.com/mderrick/react-html5video",
+  "homepage": "https://github.com/Caseworx/inferno-html5video",
   "author": {
-    "name": "Matt Derrick",
-    "email": "me@mattderrick.co.uk",
-    "url": "http://mattderrick.co.uk"
+    "name": "Rudy Luthi",
+    "email": "rluthi@caseworx.co",
+    "url": "http://caseworx.co"
   },
   "license": "MIT",
   "dependencies": {

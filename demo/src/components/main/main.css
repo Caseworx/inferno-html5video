@@ -5,23 +5,28 @@
     margin-top: -290px;
 }
 
+.main__logo-title {
+    text-align: center;
+}
+
 .main__title {
     display: block;
     text-align: center;
-    margin-bottom: 40px;
-    font-size: 40px;
-    color: #fff;
-    font-weight: 300;
+    margin-bottom: 28px;
+    line-height: 45px;
+    font-size: 30px;
+    color: #494949;
+    font-weight: 400;
 }
 
-.main__react-logo {
+.main__inferno-logo {
     position: relative;
     top: 5px;
     display: inline-block;
-    width: 45px;
-    height: 40px;
+    width: 178px;
+    height: 181px;
     background-size: cover;
-    background-image: url('./../../assets/img/react-logo.png');
+    background-image: url('./../../assets/img/inferno-logo.png');
 }
 
 .main__video {

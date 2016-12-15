@@ -90,9 +90,10 @@ class Main extends Component {
 
         return (
             <div className="main">
-                <h1 className="main__title">
-                    <span className="main__react-logo"></span> Inferno HTML5 Video
-                </h1>
+                <div className="main__logo-title">
+                    <span className="main__inferno-logo"> </span>
+                    <h1 className="main__title"> HTML5 Video </h1>
+                </div>
                 <div className="main__video">
                     <Video
                         className="custom-class"
