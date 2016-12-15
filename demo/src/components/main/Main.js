@@ -84,6 +84,9 @@ class Main extends Component {
     };
 
     render() {
+
+        const currentVideo = videos[this.state.videoId];
+
         return (
             <div className="main">
                 <h1 className="main__title">
@@ -92,13 +95,13 @@ class Main extends Component {
                 <div className="main__video">
                     <Video
                         className="custom-class"
-                        controls
-                        autoPlay
-                        loop
-                        muted
+                        controls={true}
+                        autoplay={false}
+                        loop={true}
+                        muted={true}
                         ref={ el => this._video = el }
                         onProgress={ linkEvent(this, this.onProgress)}>
-                        <source src={videos[this.state.videoId]} type="video/mp4"/>
+                        <source src={currentVideo} type="video/mp4"/>
                         <Overlay />
                         <Controls />
                     </Video>

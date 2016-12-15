@@ -13,15 +13,26 @@ class Controls extends Component {
 
     constructor(props) {
         super(props);
-        this.props = update({
-                children: [
-                    <Play />,
-                    <Seek />,
-                    <Time />,
-                    <Mute />,
-                    <Fullscreen />
-                ]
-            }, { $merge: props, });
+
+        this.state = {
+          children: [
+            <Play />,
+            <Seek />,
+            <Time />,
+            <Mute />,
+            <Fullscreen />,
+          ]
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+
+        if (nextProps.children) {
+          this.setState({
+            ...this.state,
+            children: nextProps.children,
+          })
+        }
     }
 
     /**
@@ -31,14 +42,15 @@ class Controls extends Component {
      * @return {Array.<ReactElement>} An array of components.
      */
     renderChildren = () => {
-        console.log(this.props.children)
-        return (this.props.children).map( child => {
-            return Inferno.cloneVNode(child, {...this.props});
-        });
+
+      return (this.state.children).map( child => {
+          return Inferno.cloneVNode(child, this.props);
+      });
 
     };
 
     render() {
+
         return (
             !this.props.error ? (
                 <div className="video-controls video__controls">
