@@ -1,13 +1,13 @@
 # inferno-html5video
 
+This is an InfernoJS port of the React-Html5Video package from [mderrick](https://github.com/mderrick/react-html5video)
+There are still as of this writing a couple of issues with properties like "mute" set in the component as properties.
+
 A customizeable HTML5 Video that uses the familiar HTML5 video markup but with custom and configurable controls with i18n and a11y.
 
 [![npm version](https://img.shields.io/npm/v/inferno-html5video.svg?style=flat-square)](https://www.npmjs.com/package/inferno-html5video)
 [![npm downloads](https://img.shields.io/npm/dm/inferno-html5video.svg?style=flat-square)](https://www.npmjs.com/package/inferno-html5video)
 
-<img src="http://mderrick.github.io/inferno-html5video/example.png?v=1" align="center" height="337" width="600" />
-
-View the [demo](http://mderrick.github.io/inferno-html5video/).
 
 ## Install
 
@@ -18,7 +18,8 @@ Include `dist/InfernoHtml5Video.css` if you do not want to build your own CSS. A
 ### Peer Dependencies
 
 This component uses ES2015 and needs to be transpiled using something like [babel-loader](https://github.com/babel/babel-loader). You will also need to either [polyfill](https://babeljs.io/docs/usage/polyfill/) or use [babel-runtime](https://www.npmjs.com/package/babel-runtime). It depends on:
-- `inferno@>=0.14.x`
+- `inferno@>=beta33`
+- `inferno-component@>=beta33`
 - `lodash.throttle@latest`.
 
 ### UMD
@@ -99,10 +100,10 @@ render() {
 There is some text used that could require translations. This can be done like so:
 
 ```js
-<Video copyKeys={{ key: value }}>
+<Video copyKeys={{ key: value }} />
 ```
 
-The default english `copyKeys` can be found in [here](https://github.com/mderrick/inferno-html5video/tree/master/src/assets/copy.js).
+The default english `copyKeys` can be found in [here](https://github.com/Caseworx/inferno-html5video/tree/master/src/assets/copy.js).
 
 ## a11y*
 
@@ -158,7 +159,7 @@ Feel free to raise and solve any existing issues as desired. Where possible plea
 
 ## Thank You
 
-<img src="http://mderrick.github.io/inferno-html5video/browserstack.png?v=1" height="22" width="100" />
+<img src="https://github.com/Caseworx/react-html5video/browserstack.png?v=1" height="22" width="100" />
 
 [BrowserStack](http://www.browserstack.com) for a free subscription to help test cross browser.
 
