@@ -273,24 +273,25 @@ class Video extends Component {
      * @return {Array.<InfernoElement>} An array of components.
      */
     renderControls() {
-        const extendedProps = Object.assign({
-            // The public methods that all controls should be able to
-            // use.
-            togglePlay: this.togglePlay,
-            toggleMute: this.toggleMute,
-            play: this.play,
-            pause: this.pause,
-            mute: this.mute,
-            unmute: this.unmute,
-            seek: this.seek,
-            fullscreen: this.fullscreen,
-            setVolume: this.setVolume,
-            setPlaybackRate: this.setPlaybackRate,
-        }, this.state, {copyKeys: this.props.copyKeys});
-        let controls = (this.props.children).map( (child) => {
-            if (child.type === 'source') {
-                return void 0;
+        const extendedProps = update(this.state, {
+            $set: {
+                // The public methods that all controls should be able to
+                // use.
+                togglePlay: this.togglePlay,
+                toggleMute: this.toggleMute,
+                play: this.play,
+                pause: this.pause,
+                mute: this.mute,
+                unmute: this.unmute,
+                seek: this.seek,
+                fullscreen: this.fullscreen,
+                setVolume: this.setVolume,
+                setPlaybackRate: this.setPlaybackRate,
+                copyKeys: this.props.copyKeys
             }
+
+        });
+        let controls = (this.props.children).filter( child => child.type !== 'source').map( (child) => {
             return Inferno.cloneVNode(child, extendedProps);
         });
         if (!controls.length) {
@@ -301,6 +302,7 @@ class Video extends Component {
                 </div>
             );
         }
+        console.log(controls)
         return controls;
     }
 
@@ -359,7 +361,9 @@ class Video extends Component {
         // Leave `copyKeys` here even though not used
         // as per issue #36.
         var {controls, copyKeys, style, ...otherProps} = this.props;
+        console.log(controls)
         const rendered_controls = controls ? this.renderControls() : '';
+        console.log(rendered_controls)
         const video_sources = (this.props.children).map(child => {
             if (child.type !== 'source') {
                 return void 0;

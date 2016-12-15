@@ -21,7 +21,7 @@ class Controls extends Component {
                     <Mute />,
                     <Fullscreen />
                 ]
-            }, { $merge: this.props, });
+            }, { $merge: props, });
     }
 
     /**
@@ -31,14 +31,11 @@ class Controls extends Component {
      * @return {Array.<ReactElement>} An array of components.
      */
     renderChildren = () => {
-        // console.log(this.props.children)
-        if (this.props.children) {
-            return (this.props.children).map( child => {
-                return Inferno.cloneVNode(child, {...this.props});
-            });
-        } else {
-            return this.props.children
-        }
+        console.log(this.props.children)
+        return (this.props.children).map( child => {
+            return Inferno.cloneVNode(child, {...this.props});
+        });
+
     };
 
     render() {
