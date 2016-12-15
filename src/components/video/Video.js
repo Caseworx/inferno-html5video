@@ -380,6 +380,7 @@ class Video extends Component {
                 onBlur={this.onBlur}
                 style={style}>
                 <video
+                    { ...otherConfig }
                     className="video__el"
                     ref={this.setVideoRef}
                     //  listen to every available Media event and
