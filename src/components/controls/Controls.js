@@ -11,6 +11,10 @@ import Fullscreen from './fullscreen/Fullscreen';
 
 class Controls extends Component {
 
+    updateFullscreen(props, nextProps) {
+        return props.fullscreen !== nextProps.fullscreen
+    }
+
     constructor(props) {
         super(props);
 
@@ -20,7 +24,7 @@ class Controls extends Component {
             <Seek />,
             <Time />,
             <Mute />,
-            <Fullscreen />,
+            <Fullscreen onComponentShouldUpdate={ this.updateFullscreen } />,
           ]
         };
     }
@@ -35,26 +39,14 @@ class Controls extends Component {
         }
     }
 
-    /**
-     * Returns children components with props
-     * from the parent Video component. Needed
-     * for when custom React components are used.
-     * @return {Array.<ReactElement>} An array of components.
-     */
-    renderChildren = () => {
-
-      return (this.state.children).map( child => {
-          return Inferno.cloneVNode(child, this.props);
-      });
-
-    };
-
     render() {
-
+        const childControls = this.state.children.map( child => {
+            return Inferno.cloneVNode(child, this.props);
+        });
         return (
             !this.props.error ? (
                 <div className="video-controls video__controls">
-                    { this.renderChildren() }
+                    { childControls }
                 </div>
             ) : null
         );
