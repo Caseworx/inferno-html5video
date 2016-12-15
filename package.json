@@ -1,6 +1,6 @@
 {
   "name": "inferno-html5video",
-  "version": "1.4.0",
+  "version": "1.0.0",
   "description": "",
   "main": "./dist/InfernoHtml5Video.js",
   "scripts": {
@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mderrick/react-html5video.git"
+    "url": "https://github.com/Caseworx/inferno-html5video.git"
   },
   "bugs": {
-    "url": "https://github.com/mderrick/react-html5video/issues"
+    "url": "https://github.com/Caseworx/inferno-html5video/issues"
   },
   "homepage": "https://github.com/Caseworx/inferno-html5video",
   "author": {

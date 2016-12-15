@@ -299,7 +299,7 @@ class Video extends Component {
             );
         }
         return controls;
-    }
+    };
 
     /**
      * Gets the video class name based on its state
