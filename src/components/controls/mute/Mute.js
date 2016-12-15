@@ -25,7 +25,6 @@ class Mute extends Component {
      * @return {undefined}
      */
     changeVolume = (e) => {
-        console.log(e);
         this.props.setVolume(e.target.value / 100, true);
         this.props.unmute();
     };
