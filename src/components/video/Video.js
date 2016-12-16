@@ -43,11 +43,11 @@ class Video extends Component {
         // Set up all Inferno media events and call method
         // on props if provided.
         this.state = {
+            ...props.playerConfig,
             networkState: 0,
-            paused: !this.props.autoplay,
-            muted: !!this.props.muted,
+            paused: !this.props.playerConfig.autoplay,
+            muted: !!this.props.playerConfig.muted,
             volume: 1,
-            playbackRate: 1,
             error: false,
             loading: false,
         }
@@ -65,6 +65,8 @@ class Video extends Component {
      */
     componentWillMount() {
         this._updateStateFromVideo = throttle(this.updateStateFromVideo, 100)
+
+        // load initial config into state
         // Set up all media events and call method
         // on props if provided.
         this.mediaEventProps = EVENTS.reduce((p, c) => {
@@ -353,10 +355,24 @@ class Video extends Component {
     render() {
         // If controls prop is provided remove it
         // and use our own controls.
-        const {controls, style, copyKeys, ...otherProps} = this.props;
+        const {style, copyKeys } = this.props;
+        // stub out state we don't want to pass into the <video /> element as props.
+        const {
+            videoEl,
+            duration,
+            currentTime,
+            buffered,
+            percentageBuffered,
+            readyState,
+            percentagePlayed,
+            playbackRate,
+            loading,
+            focused,
+            networkState,
+            paused,
+            controls, ...otherConfig } = this.state;
         const rendered_controls = controls ? this.renderControls() : '';
         const video_sources = this.props.children.filter( child => child.type === 'source' )
-
         return (
             <div className={this.getVideoClassName()}
                 tabIndex="0"
@@ -364,7 +380,7 @@ class Video extends Component {
                 onBlur={this.onBlur}
                 style={style}>
                 <video
-                    { ...otherProps }
+                    { ...otherConfig }
                     className="video__el"
                     ref={this.setVideoRef}
                     //  listen to every available Media event and

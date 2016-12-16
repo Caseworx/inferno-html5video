@@ -43,5 +43,19 @@ module.exports = {
             test: /\.(svg|woff|ttf|eot|png|jpg|gif)(\?.*)?$/i,
             loader: 'url-loader?limit=10000'
         }]
+    },
+    plugins: [
+        // First two plugins are removed by server.js
+        new webpack.optimize.UglifyJsPlugin({
+            minimize: true,
+            output: {
+                comments: false
     }
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        })
+    ]
 };

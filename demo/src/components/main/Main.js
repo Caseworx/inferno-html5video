@@ -97,10 +97,13 @@ class Main extends Component {
                 <div className="main__video">
                     <Video
                         className="custom-class"
-                        controls={true}
-                        autoplay={false}
-                        loop={false}
-                        muted={false}
+                        playerConfig={{
+                            autoplay: true,
+                            loop: false,
+                            muted: true,
+                            controls: true,
+                            ended: true,
+                        }}
                         ref={ el => this._video = el }
                         onProgress={ this.onProgress.bind(this) }>
                         <source src={currentVideo} type="video/mp4"/>

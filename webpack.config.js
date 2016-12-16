@@ -1,5 +1,6 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var webpack = require('webpack');
 
 module.exports = {
     entry: [
@@ -11,15 +12,19 @@ module.exports = {
     target: 'web',
     output: {
         path: './dist',
-        filename: 'ReactHtml5Video.js',
+        filename: 'InfernoHtml5Video.js',
         libraryTarget: 'umd',
-        library: 'ReactHtml5Video'
+        library: 'InfernoHtml5Video'
     },
     module: {
         loaders: [{
             test: /\.js$/,
+            loader: 'babel-loader',
             exclude: /node_modules/,
-            loader: 'babel?optional=runtime'
+            query: {
+                presets: ['es2015', 'inferno-app'],
+                plugins: [ 'syntax-jsx', 'inferno']
+            }
         }, {
             test: /\.(svg|woff([\?]?.*)|ttf([\?]?.*)|eot([\?]?.*)|svg([\?]?.*))$/i,
             loader: 'url-loader?limit=10000'
@@ -29,6 +34,11 @@ module.exports = {
         }]
     },
     plugins: [
-        new ExtractTextPlugin('InfernoHtml5Video.css')
+        new ExtractTextPlugin('InfernoHtml5Video.css'),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        })
     ]
 };

@@ -9,6 +9,9 @@ config.devtool = 'sourcemap';
 
 config.output.publicPath = '/dist/';
 
+// Remove minification to speed things up.
+config.plugins.splice(1, 2);
+
 compiler = webpack(config);
 server = new webpackDevServer(compiler, {
     publicPath: config.output.publicPath,

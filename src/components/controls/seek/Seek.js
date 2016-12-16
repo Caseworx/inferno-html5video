@@ -16,7 +16,6 @@ class Seek extends Component {
      * @return {undefined}
      */
     seek = (e) => {
-        console.log(e)
         this.props.seek(e.target.value * this.props.duration / 100, true);
     };
 
